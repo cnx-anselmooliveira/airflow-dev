@@ -1,9 +1,10 @@
 import logging
+from datetime import datetime
+
 from airflow import DAG
-from airflow.operators.dummy import DummyOperator
+from airflow.operators.empty import EmptyOperator  # Substitui DummyOperator
 from airflow.operators.bash import BashOperator
 from airflow.operators.python import PythonOperator
-from datetime import datetime
 
 # Configuração de logging
 logging.basicConfig(level=logging.INFO)
@@ -23,29 +24,29 @@ with DAG(
     schedule=None,  # DAG manual para testes
     catchup=False,
     default_args=default_args,
-    tags=['test', 'example'],  # Tags para organização
+    tags=['test', 'example'],
     description='DAG de teste para o Airflow 3'
 ) as dag:
 
-    # Tarefa inicial Dummy
-    start_task = DummyOperator(
+    # Tarefa inicial (EmptyOperator substitui DummyOperator)
+    start_task = EmptyOperator(
         task_id='start_task'
     )
 
-    # Tarefa Bash para saída no console
+    # Tarefa Bash
     bash_task = BashOperator(
         task_id='bash_task',
         bash_command='echo "Executando tarefa Bash!"'
     )
 
-    # Tarefa Python para log
+    # Tarefa Python
     log_task = PythonOperator(
         task_id='log_task',
         python_callable=log_message
     )
 
-    # Tarefa final Dummy
-    end_task = DummyOperator(
+    # Tarefa final
+    end_task = EmptyOperator(
         task_id='end_task'
     )
 

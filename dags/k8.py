@@ -40,7 +40,8 @@ DBT_GIT_REPO = "https://github.com/conexasaude/airflow.git"
 DBT_GIT_BRANCH = "main"
 
 # Caminho dentro do emptyDir após o git clone
-DBT_CLONE_PATH = Path("/dbt/project")
+SCHEDULER_DBT_PATH = Path("/opt/airflow/dags/repo/conexa_dbt_dados")  # disponível via git-sync
+POD_DBT_PATH = Path("/dbt/project/conexa_dbt_dados")   
 
 # ---------------------------------------------------------------------------
 # Volumes — emptyDir compartilhado entre init-container e container dbt
@@ -134,7 +135,7 @@ profile_config = ProfileConfig(
 # ---------------------------------------------------------------------------
 
 project_config = ProjectConfig(
-    dbt_project_path=DBT_CLONE_PATH,
+    dbt_project_path=SCHEDULER_DBT_PATH,
     models_relative_path="models",
     seeds_relative_path="seeds",
     snapshots_relative_path="snapshots",
@@ -146,6 +147,7 @@ project_config = ProjectConfig(
 
 execution_config = ExecutionConfig(
     execution_mode=ExecutionMode.KUBERNETES,
+    dbt_project_path=POD_DBT_PATH,
     dbt_executable_path="/usr/local/bin/dbt",
 )
 

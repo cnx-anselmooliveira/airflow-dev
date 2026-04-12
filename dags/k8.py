@@ -21,9 +21,7 @@ from cosmos import DbtDag, ExecutionConfig, ProjectConfig, RenderConfig
 from cosmos.config import ProfileConfig
 from cosmos.constants import ExecutionMode, LoadMode
 
-# Troque pelo ProfileMapping do seu warehouse:
-# TrinoUserPasswordProfileMapping | PostgresUserPasswordProfileMapping | etc.
-from cosmos.profiles import TrinoUserPasswordProfileMapping
+from cosmos.profiles import TrinoLDAPProfileMapping
 from kubernetes.client import models as k8s
 
 # ---------------------------------------------------------------------------
@@ -35,7 +33,7 @@ K8S_NAMESPACE = "airflow"
 
 # Imagem dbt no ECR (crie uma imagem com dbt + adapter instalados)
 # Ex: FROM ghcr.io/dbt-labs/dbt-trino:1.8.0  → push para ECR
-DBT_IMAGE = "ghcr.io/dbt-labs/dbt-trino:1.8.0:latest"
+DBT_IMAGE = "ghcr.io/dbt-labs/dbt-trino:latest"
 
 # Repo git do projeto dbt (separado do airflow_dags.git)
 DBT_GIT_REPO = "https://github.com/conexasaude/airflow.git"
@@ -122,7 +120,7 @@ node_affinity = k8s.V1Affinity(
 profile_config = ProfileConfig(
     profile_name="conexa_dbt",       # deve bater com o nome no profiles.yml do repo dbt
     target_name="prod",
-    profile_mapping=TrinoUserPasswordProfileMapping(
+    profile_mapping=TrinoLDAPProfileMapping(
         conn_id="trino_default",      # Airflow Connection ID configurado na UI
         profile_args={
             "schema": "delta",

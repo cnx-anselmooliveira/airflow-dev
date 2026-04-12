@@ -39,9 +39,12 @@ DBT_IMAGE = "ghcr.io/dbt-labs/dbt-trino:latest"
 DBT_GIT_REPO = "https://github.com/conexasaude/airflow.git"
 DBT_GIT_BRANCH = "main"
 
-# Caminho dentro do emptyDir após o git clone
-SCHEDULER_DBT_PATH = Path("/opt/airflow/dags/repo/conexa_dbt_dados")  # disponível via git-sync
-POD_DBT_PATH = Path("/dbt/project/conexa_dbt_dados")   
+# Scheduler: path disponível via git-sync (usado no parse da DAG)
+SCHEDULER_DBT_PATH = Path("/opt/airflow/dags/repo/conexa_dbt_dados")
+
+# Pod: raiz do clone + subpasta do projeto dbt (usado na execução)
+CLONE_ROOT = Path("/dbt/project")
+POD_DBT_PATH = CLONE_ROOT / "conexa_dbt_dados"
 
 # ---------------------------------------------------------------------------
 # Volumes — emptyDir compartilhado entre init-container e container dbt
@@ -70,7 +73,7 @@ git_clone_init_container = k8s.V1Container(
     image="alpine/git:2.43.0",
     command=[
         "sh", "-c",
-        f"git clone --depth 1 --branch {DBT_GIT_BRANCH} {DBT_GIT_REPO} {DBT_CLONE_PATH}",
+        f"git clone --depth 1 --branch {DBT_GIT_BRANCH} {DBT_GIT_REPO} {CLONE_ROOT}",
     ],
     volume_mounts=[dbt_volume_mount],
     # Se o repo for privado, injete o token do mesmo secret do git-sync:
@@ -156,9 +159,6 @@ execution_config = ExecutionConfig(
 # ---------------------------------------------------------------------------
 
 render_config = RenderConfig(
-    # DBT_LS: roda `dbt ls` durante o parse (bom para dev/homolog).
-    # Em produção, prefira LoadMode.MANIFEST apontando para um
-    # manifest.json gerado no CI/CD → elimina o dbt ls no scheduler.
     load_method=LoadMode.DBT_LS,
     # select=["tag:daily"],   # filtra por tag/pasta se necessário
     # exclude=["tag:skip"],

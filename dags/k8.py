@@ -219,7 +219,7 @@ dbt_dag = DbtDag(
     dag_id="dbt_cosmos_k8s",
     description="Executa o projeto dbt via Cosmos no EKS (1 pod por node dbt)",
 
-    schedule_interval="0 6 * * *",    # 06:00 UTC = 03:00 BRT
+    schedule="0 6 * * *",    # 06:00 UTC = 03:00 BRT
     start_date=datetime(2024, 1, 1),
     catchup=False,
     max_active_runs=1,

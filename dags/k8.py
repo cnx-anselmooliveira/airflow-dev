@@ -40,11 +40,11 @@ DBT_GIT_REPO = "https://github.com/conexasaude/airflow.git"
 DBT_GIT_BRANCH = "main"
 
 # Scheduler: path disponível via git-sync (usado no parse da DAG)
-SCHEDULER_DBT_PATH = Path("/opt/airflow/dags/repo/dbt/lakehouse")
+SCHEDULER_DBT_PATH = Path("/opt/airflow/dbt/conexa_dbt_dados")
 
 # Pod: raiz do clone + subpasta do projeto dbt (usado na execução)
 CLONE_ROOT = Path("/dbt/project")
-POD_DBT_PATH = CLONE_ROOT / "dbt/lakehouse"
+POD_DBT_PATH = Path("/opt/airflow/dbt/conexa_dbt_dados")
 
 # ---------------------------------------------------------------------------
 # Volumes — emptyDir compartilhado entre init-container e container dbt

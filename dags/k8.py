@@ -151,6 +151,7 @@ execution_config = ExecutionConfig(
     execution_mode=ExecutionMode.KUBERNETES,
     dbt_project_path=POD_DBT_PATH,
     dbt_executable_path=Path("/home/airflow/.local/bin/dbt"),
+    emit_datasets=False,
 )
 
 # ---------------------------------------------------------------------------

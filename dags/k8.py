@@ -150,7 +150,7 @@ project_config = ProjectConfig(
 execution_config = ExecutionConfig(
     execution_mode=ExecutionMode.KUBERNETES,
     dbt_project_path=POD_DBT_PATH,
-    dbt_executable_path="/home/airflow/.local/bin/dbt",
+    dbt_executable_path="/usr/local/bin/dbt",
 )
 
 # ---------------------------------------------------------------------------
@@ -160,6 +160,7 @@ execution_config = ExecutionConfig(
 render_config = RenderConfig(
     load_method=LoadMode.DBT_LS,
     dbt_project_path=SCHEDULER_DBT_PATH,
+    dbt_executable_path="/home/airflow/.local/bin/dbt",
     # select=["tag:daily"],   # filtra por tag/pasta se necessário
     # exclude=["tag:skip"],
     emit_datasets=False,

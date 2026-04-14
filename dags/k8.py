@@ -160,7 +160,6 @@ execution_config = ExecutionConfig(
 render_config = RenderConfig(
     load_method=LoadMode.DBT_LS,
     dbt_project_path=SCHEDULER_DBT_PATH,
-    dbt_executable_path=Path("/home/airflow/.local/bin/dbt"),
     # select=["tag:daily"],   # filtra por tag/pasta se necessário
     # exclude=["tag:skip"],
     emit_datasets=False,

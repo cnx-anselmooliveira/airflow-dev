@@ -80,8 +80,8 @@ airflowVersion: "3.1.8"
 # Images
 images:
   airflow:
-    repository: anselmomendes/airflow_dbt_cosmos
-    tag: "1.6"
+    repository: ~
+    tag: ~
     # Specifying digest takes precedence over tag.
     digest: ~
     pullPolicy: IfNotPresent

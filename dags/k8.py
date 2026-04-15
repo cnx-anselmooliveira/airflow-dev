@@ -125,7 +125,7 @@ profile_config = ProfileConfig(
     profile_name="conexa_dbt",       # deve bater com o nome no profiles.yml do repo dbt
     target_name="prod",
     profile_mapping=TrinoLDAPProfileMapping(
-        conn_id="trino_default",      # Airflow Connection ID configurado na UI
+        conn_id="trino_conn",      # Airflow Connection ID configurado na UI
         profile_args={
             "schema": "delta",
             "catalog": "lakehouse",

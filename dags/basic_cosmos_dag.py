@@ -8,10 +8,13 @@ from pathlib import Path
 import logging
 
 # [START cosmos_init_imports]
-from cosmos import DbtDag, ProfileConfig, ProjectConfig
+from cosmos import DbtDag, ProfileConfig, ProjectConfig, RenderConfig
 
 # [END cosmos_init_imports]
 from cosmos.profiles import TrinoLDAPProfileMapping
+
+from cosmos.constants import ExecutionMode, LoadMode
+
 
 DBT_PROJECT_PATH = Path(os.getenv("DBT_PROJECT_DIR", '/opt/airflow/dags/repo/dbt'))
 
@@ -28,6 +31,14 @@ profile_config = ProfileConfig(
             "catalog": "lakehouse",
         },
     ),
+)
+
+render_config = RenderConfig(
+    load_method=LoadMode.DBT_LS,
+    dbt_project_path=DBT_PROJECT_PATH,
+    # select=["tag:daily"],   # filtra por tag/pasta se necessário
+    # exclude=["tag:skip"],
+    emit_datasets=False,
 )
 
 # [START local_example]

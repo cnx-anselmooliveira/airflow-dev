@@ -19,7 +19,7 @@ from pathlib import Path
 
 from cosmos import DbtDag, ExecutionConfig, ProjectConfig, RenderConfig
 from cosmos.config import ProfileConfig
-from cosmos.constants import ExecutionMode, InvocationMode, LoadMode
+from cosmos.constants import ExecutionMode, LoadMode
 
 from cosmos.profiles import TrinoLDAPProfileMapping
 from kubernetes.client import models as k8s
@@ -149,7 +149,6 @@ project_config = ProjectConfig(
 
 execution_config = ExecutionConfig(
     execution_mode=ExecutionMode.KUBERNETES,
-    invocation_mode=InvocationMode.SUBPROCESS,         # libera dbt_executable_path no RenderConfig
     dbt_project_path=POD_DBT_PATH,
     dbt_executable_path="/usr/local/bin/dbt",          # caminho no pod (dbt-trino:latest)
 )
@@ -161,7 +160,7 @@ execution_config = ExecutionConfig(
 render_config = RenderConfig(
     load_method=LoadMode.DBT_LS,
     dbt_project_path=SCHEDULER_DBT_PATH,
-    dbt_executable_path="/opt/airflow/dbt_venv/bin/dbt",  # venv no dag-processor
+    # dbt_executable_path não necessário: ASTRONOMER_COSMOS_DBT_VIRTUALENV_PATH no Dockerfile
     # select=["tag:daily"],   # filtra por tag/pasta se necessário
     # exclude=["tag:skip"],
     emit_datasets=False,

@@ -44,3 +44,5 @@ basic_cosmos_dag = DbtDag(
     default_args={"retries": 0},
 )
 # [END local_example]
+
+basic_cosmos_dag

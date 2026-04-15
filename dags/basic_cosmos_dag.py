@@ -5,6 +5,7 @@ An example DAG that uses Cosmos to render a dbt project into an Airflow DAG.
 import os
 from datetime import datetime
 from pathlib import Path
+import logging
 
 # [START cosmos_init_imports]
 from cosmos import DbtDag, ProfileConfig, ProjectConfig
@@ -12,10 +13,14 @@ from cosmos import DbtDag, ProfileConfig, ProjectConfig
 # [END cosmos_init_imports]
 from cosmos.profiles import PostgresUserPasswordProfileMapping
 
-DBT_ROOT_PATH = Path(os.getenv("DBT_ROOT_PATH", '/opt/airflow/dags/repo/dbt'))
+DBT_ROOT_PATH = Path(os.getenv("DBT_PROJECT_DIR", '/opt/airflow/dags/repo/dbt'))
 DBT_PROJECT_NAME = os.getenv("DBT_PROJECT_NAME", "conexa_dbt_dados")
 DBT_PROJECT_PATH = DBT_ROOT_PATH / DBT_PROJECT_NAME
 
+logging.info(f'DBT_ROOT_PATH: {DBT_ROOT_PATH}')
+logging.info(f'DBT_PROJECT_NAME: {DBT_PROJECT_NAME}')
+logging.info(f'DBT_PROJECT_PATH: {DBT_PROJECT_PATH}')
+#/opt/airflow/dbt/conexa_dbt_dados/dbt_project.yml
 
 profile_config = ProfileConfig(
     profile_name="default",

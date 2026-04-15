@@ -46,6 +46,7 @@ basic_cosmos_dag = DbtDag(
     # dbt/cosmos-specific parameters
     project_config=ProjectConfig(DBT_PROJECT_PATH),
     profile_config=profile_config,
+    render_config=render_config,
     operator_args={
         "install_deps": True,  # install any necessary dependencies before running any dbt command
         "full_refresh": True,  # used only in dbt commands that support this flag

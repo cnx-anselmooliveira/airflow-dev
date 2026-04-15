@@ -13,12 +13,8 @@ from cosmos import DbtDag, ProfileConfig, ProjectConfig
 # [END cosmos_init_imports]
 from cosmos.profiles import PostgresUserPasswordProfileMapping
 
-DBT_ROOT_PATH = Path(os.getenv("DBT_PROJECT_DIR", '/opt/airflow/dags/repo/dbt'))
-DBT_PROJECT_NAME = os.getenv("DBT_PROJECT_NAME", "conexa_dbt_dados")
-DBT_PROJECT_PATH = DBT_ROOT_PATH / DBT_PROJECT_NAME
+DBT_PROJECT_PATH = Path(os.getenv("DBT_PROJECT_DIR", '/opt/airflow/dags/repo/dbt'))
 
-logging.info(f'DBT_ROOT_PATH: {DBT_ROOT_PATH}')
-logging.info(f'DBT_PROJECT_NAME: {DBT_PROJECT_NAME}')
 logging.info(f'DBT_PROJECT_PATH: {DBT_PROJECT_PATH}')
 #/opt/airflow/dbt/conexa_dbt_dados/dbt_project.yml
 

@@ -11,7 +11,7 @@ import logging
 from cosmos import DbtDag, ProfileConfig, ProjectConfig
 
 # [END cosmos_init_imports]
-from cosmos.profiles import PostgresUserPasswordProfileMapping
+from cosmos.profiles import TrinoLDAPProfileMapping
 
 DBT_PROJECT_PATH = Path(os.getenv("DBT_PROJECT_DIR", '/opt/airflow/dags/repo/dbt'))
 
@@ -19,12 +19,14 @@ logging.info(f'DBT_PROJECT_PATH: {DBT_PROJECT_PATH}')
 #/opt/airflow/dbt/conexa_dbt_dados/dbt_project.yml
 
 profile_config = ProfileConfig(
-    profile_name="default",
-    target_name="dev",
-    profile_mapping=PostgresUserPasswordProfileMapping(
-        conn_id="example_conn",
-        profile_args={"schema": "public"},
-        disable_event_tracking=True,
+    profile_name="conexa_dbt",       # deve bater com o nome no profiles.yml do repo dbt
+    target_name="prod",
+    profile_mapping=TrinoLDAPProfileMapping(
+        conn_id="trino_conn",      # Airflow Connection ID configurado na UI
+        profile_args={
+            "schema": "delta",
+            "catalog": "lakehouse",
+        },
     ),
 )
 
